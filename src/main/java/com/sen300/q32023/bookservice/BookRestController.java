@@ -16,16 +16,46 @@ public class BookRestController {
     @Autowired
     private BookRepository bookRepo;
 
+    // show all books
     @GetMapping(path = "")
     @ResponseStatus(code = HttpStatus.OK)
     public List<Book> findAllBooks() {
         return bookRepo.findAll();
     }
 
+    // search book
     @GetMapping(path = "/search/{searchText}")
     @ResponseStatus(code = HttpStatus.OK)
     public List<Book> searchBooks(@PathVariable(required = true) String searchText) {
         return bookRepo.findByTitleContainingOrDescriptionContaining(searchText, searchText);
+    }
+
+    // read book
+    @GetMapping(path = "/{bookUUID}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Book getBook(@PathVariable UUID bookUUID) {
+        return bookRepo.findById(bookUUID).orElseThrow(() -> new NoSuchElementException());
+    }
+
+    // update book
+    @PutMapping(path = "/{bookUUID}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateBook(@PathVariable(required = true) UUID bookUUID, @RequestBody Book book) {
+
+        if (!book.getBookGuid().equals(bookUUID)) {
+            throw new RuntimeException(
+                    String.format("Path itemId %s did not match body itemId %s", bookUUID, book.getBookGuid()));
+        }
+
+        bookRepo.save(book);
+    }
+
+    // delete book
+    @DeleteMapping(path = "/{bookUUID}")
+    @ResponseStatus(HttpStatus.OK)
+    public void DeleteItem(@PathVariable(required = true) UUID bookUUID) {
+
+        bookRepo.deleteById(bookUUID);
     }
 
     // Gets Json through MongoDB
