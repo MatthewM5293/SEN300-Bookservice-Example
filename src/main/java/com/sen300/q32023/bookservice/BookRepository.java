@@ -4,6 +4,6 @@ import java.util.*;
 import org.springframework.data.mongodb.repository.MongoRepository;
 //allows rest controller to talk to MongoDB (JSON)
 public interface BookRepository extends MongoRepository<Book, UUID> {
-    public List<Book> findByTitleContainingOrDescriptionContaining(String txt, String txt2);
+    public List<Book> findByTitleContainingOrDescriptionContainingIgnoreCase(String txt, String txt2);
 
 }

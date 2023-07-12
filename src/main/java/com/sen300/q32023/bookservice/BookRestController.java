@@ -26,8 +26,11 @@ public class BookRestController {
     // search book
     @GetMapping(path = "/search/{searchText}")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<Book> searchBooks(@PathVariable(required = true) String searchText) {
-        return bookRepo.findByTitleContainingOrDescriptionContaining(searchText, searchText);
+    // public List<Book> searchItems(@RequestParam(required = true) String
+    // searchText) {
+    public List<Book> searchItems(@PathVariable(required = true) String searchText) {
+        //return booksRepo.findAll();
+        return bookRepo.findByTitleContainingOrDescriptionContainingIgnoreCase(searchText, searchText);
     }
 
     // read book
@@ -37,7 +40,7 @@ public class BookRestController {
         return bookRepo.findById(bookUUID).orElseThrow(() -> new NoSuchElementException());
     }
 
-    // update book
+    // update book using PUT
     @PutMapping(path = "/{bookUUID}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateBook(@PathVariable(required = true) UUID bookUUID, @RequestBody Book book) {

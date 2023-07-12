@@ -7,8 +7,8 @@ import org.springframework.data.annotation.*;
 public class Book {
     @Id
     private UUID bookGuid;
-    private String Title;
-    private String Description;
+    private String title;
+    private String description;
     private LocalDate PublishedDate;
     private LocalDate CreatedDate;
 
@@ -22,19 +22,19 @@ public class Book {
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
-    public void setTitle(String title) {
-        Title = title;
+    public void setTitle(String _title) {
+        title = _title;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
-    public void setDescription(String description) {
-        Description = description;
+    public void setDescription(String _description) {
+        description = _description;
     }
 
     public LocalDate getPublishedDate() {
